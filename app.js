@@ -29,11 +29,52 @@ function draw() {
     line(cellWidth * 2, 0, cellWidth * 2, cellHeight * 3);
 }
 
-function makeMove() {
-    let x = floor(mouseX/cellWidth);
-    let y = floor(mouseY/cellHeight);
+function countOpenSpots() {
+    let count = 0;
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board.length; i++) {
+            if (board[i][j] === '') {
+                count++;
+            }
+        }
+    }
+    return count;
+}
 
-    if(board[x][y] == '') {
+function equals3(a, b, c) {
+    return a == b && b == c && a != '';
+}
+
+function checkWinner() {
+    let winner = null;
+
+    for (let i = 0; i < board.length; i++) {
+
+        // horizontal check
+        if (equals3(board[i][0], board[i][1], board[i][2])) {
+            return board[i][0];
+        }
+
+        // vertical check
+        if (equals3(board[0][i], board[1][i], board[2][i])) {
+            return board[0][i];
+        }
+    }
+
+    // diagonal check
+    if (equals3(board[0][0], board[1][1], board[2][2])) {
+        return board[0][0];
+    }
+    if (equals3(board[2][0], board[1][1], board[0][2])) {
+        return board[2][0];
+    }
+}
+
+function makeMove() {
+    let x = floor(mouseX / cellWidth);
+    let y = floor(mouseY / cellHeight);
+
+    if (board[x][y] == '') {
         board[x][y] = currentPlayer;
         currentPlayer = ai;
     }
